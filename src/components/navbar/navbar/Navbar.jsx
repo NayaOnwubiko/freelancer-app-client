@@ -1,108 +1,128 @@
-import React, { useEffect, useState } from "react"
-import "./Navbar.scss"
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import newRequest from "../../../utils/newRequest";
+import "./Navbar.scss";
 
-const Navbar = () => {
+function Navbar() {
+  const [active, setActive] = useState(false);
+  const [open, setOpen] = useState(false);
 
-    const [active, setActive] = useState(false);
-    const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
 
-    const {pathname} = useLocation()
+  const isActive = () => {
+    window.scrollY > 0 ? setActive(true) : setActive(false);
+  };
 
-    //Checks if the menu has been scrolled
-    const isActive = ()=>{
-        window.scrollY > 0 ? setActive(true) : setActive(false)
+  useEffect(() => {
+    window.addEventListener("scroll", isActive);
+    return () => {
+      window.removeEventListener("scroll", isActive);
+    };
+  }, []);
+
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await newRequest.post("/auth/logout");
+      localStorage.setItem("currentUser", null);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
     }
-
-    useEffect(() => {
-        window.addEventListener("scroll", isActive);
-
-        return () => {
-            window.removeEventListener("scroll", isActive);
-        };
-    },[]);
-
-    //Checks if the current user is a seller
-    const currentUser = {
-        id: 1,
-        username: "John Doe",
-        isSeller: true
-    }
+  };
 
   return (
-    <div className={active || pathname !=='/' ? "navbar active" : "navbar"}>
-        <div className="container">
-            <div className="logo">
-                <Link to="/" className="link">
-                    <span>fiverr</span>
-                </Link>
-                <span className="dot">.</span>
-            </div>
-            <div className="links">
-                <span>Fiverr Business</span>
-                <span>Explore</span>
-                <span>English</span>
-                <span>Sign in</span>
-                {!currentUser?.isSeller && <span>Become a Seller</span>}
-                {!currentUser && <button>Join</button>}
-                {currentUser && (
-                    <div className="user" onClick={()=>setOpen(!open)}>
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80" alt="" />
-                        <span>{currentUser?.username}</span>
-                        {open && <div className="options">
-                            {
-                                currentUser?.isSeller && (
-                                    <>
-                                        <Link className="link" to="/mygigs">Gigs</Link>
-                                        <Link className="link" to="/add">Add New Gig</Link>
-                                    </>
-                                )
-                            }
-                            <Link className="link" to="/orders">Orders</Link>
-                            <Link className="link" to="/messages">Messages</Link>
-                            <Link className="link"to="/">Logout</Link>
-                        </div>}
-                    </div>
-                )}
-            </div>
+    <div className={active || pathname !== "/" ? "navbar active" : "navbar"}>
+      <div className="container">
+        <div className="logo">
+          <Link className="link" to="/">
+            <span className="text">fiverr</span>
+          </Link>
+          <span className="dot">.</span>
         </div>
-        {(active || pathname !=='/') && (
-            <>
-                <hr />
-                <div className="menu">
-                    <Link className="link menuLink" to="/">
-                        Graphics & Design
-                    </Link>
-                    <Link className="link menuLink" to="/">
-                        Video & Animation
-                    </Link>
-                    <Link className="link menuLink" to="/">
-                        Writing & Translation
-                    </Link>
-                    <Link className="link menuLink" to="/">
-                        AI Services
-                    </Link>
-                    <Link className="link menuLink" to="/">
-                        Digital Marketing
-                    </Link>
-                    <Link className="link menuLink" to="/">
-                        Music & Audio
-                    </Link>
-                    <Link className="link menuLink" to="/">
-                        Programming & Tech
-                    </Link>
-                    <Link className="link menuLink" to="/">
-                        Business
-                    </Link> 
-                    <Link className="link menuLink" to="/">
-                        Lifestyle
-                    </Link>                                                                          
+        <div className="links">
+          <span>Fiverr Business</span>
+          <span>Explore</span>
+          <span>English</span>
+          {!currentUser?.isSeller && <span>Become a Seller</span>}
+          {currentUser ? (
+            <div className="user" onClick={() => setOpen(!open)}>
+              <img src={currentUser.img || "/img/noavatar.jpg"} alt="" />
+              <span>{currentUser?.username}</span>
+              {open && (
+                <div className="options">
+                  {currentUser.isSeller && (
+                    <>
+                      <Link className="link" to="/mygigs">
+                        Gigs
+                      </Link>
+                      <Link className="link" to="/add">
+                        Add New Gig
+                      </Link>
+                    </>
+                  )}
+                  <Link className="link" to="/orders">
+                    Orders
+                  </Link>
+                  <Link className="link" to="/messages">
+                    Messages
+                  </Link>
+                  <Link className="link" onClick={handleLogout}>
+                    Logout
+                  </Link>
                 </div>
-            <hr/>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link to="/login" className="link">Sign in</Link>
+              <Link className="link" to="/register">
+                <button>Join</button>
+              </Link>
             </>
-        )}
+          )}
+        </div>
+      </div>
+      {(active || pathname !== "/") && (
+        <>
+          <hr />
+          <div className="menu">
+            <Link className="link menuLink" to="/">
+              Graphics & Design
+            </Link>
+            <Link className="link menuLink" to="/">
+              Video & Animation
+            </Link>
+            <Link className="link menuLink" to="/">
+              Writing & Translation
+            </Link>
+            <Link className="link menuLink" to="/">
+              AI Services
+            </Link>
+            <Link className="link menuLink" to="/">
+              Digital Marketing
+            </Link>
+            <Link className="link menuLink" to="/">
+              Music & Audio
+            </Link>
+            <Link className="link menuLink" to="/">
+              Programming & Tech
+            </Link>
+            <Link className="link menuLink" to="/">
+              Business
+            </Link>
+            <Link className="link menuLink" to="/">
+              Lifestyle
+            </Link>
+          </div>
+          <hr />
+        </>
+      )}
     </div>
-  )
-};
+  );
+}
 
 export default Navbar;

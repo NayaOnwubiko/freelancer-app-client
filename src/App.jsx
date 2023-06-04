@@ -9,17 +9,23 @@ import Orders from "./pages/orders/Orders";
 import Messages from "./pages/messages/Messages";
 import Message from "./pages/message/Message";
 import MyGigs from "./pages/myGigs/MyGigs";
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import "./app.scss";
 
 function App() {
+  const queryClient = new QueryClient()
 
   const Layout = ()=>{
     return (
       <div className="app">
-        <Navbar/>
-        <Outlet/>
-        <Footer/>
+        <QueryClientProvider client={queryClient}>
+          <Navbar/>
+          <Outlet/>
+          <Footer/>
+        </QueryClientProvider>
       </div>
     )
   }
@@ -60,6 +66,14 @@ function App() {
       {
         path: "/message/:id",
         element:<Message />
+      },
+      {
+        path: "/login",
+        element:<Login />
+      },
+      {
+        path: "/register",
+        element:<Register />
       },
     ],
   },

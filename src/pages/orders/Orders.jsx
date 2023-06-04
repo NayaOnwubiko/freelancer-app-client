@@ -1,17 +1,32 @@
 import React from "react"
 import "./Orders.scss"
 import { Link } from "react-router-dom";
+import newRequest from "../../utils/newRequest";
+import { useQuery } from "@tanstack/react-query";
 
 const Orders = () => {
 
-    const currentUser = {
-        id: 1,
-        username: "John Doe",
-        isSeller: true
-    }
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["orders"],
+    queryFn: () =>
+      newRequest
+        .get(
+          `/orders`
+        )
+        .then((res) => {
+          return res.data;
+        }),
+  });
 
   return (
     <div className="orders">
+      {isLoading ? (
+      "loading" 
+      ) : error ? (
+      "error" 
+      ) : (
       <div className="container">
         <div className="title">
           <h1>Orders</h1>
@@ -21,86 +36,31 @@ const Orders = () => {
             <th>Image</th>
             <th>Title</th>
             <th>Price</th>
-            <th>{currentUser?.isSeller? "Buyer" : "Seller"}</th>
             <th>Contact</th>
           </tr>
-          <tr>
+          {data.map((order) => (
+          <tr key={order._id}>
             <td>
               <img 
                 className="img"
-                src="https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+                src={order.img}
                 alt="" 
               />
             </td>
-            <td>Gig1</td>
-            <td>88</td>
-            <td>123</td>
-            <td>
-              <img className="message" src="/img/message.png" alt="" />
-            </td>
-          </tr>
-          <tr>
+            <td>{order.title}</td>
+            <td>{order.price}</td>
             <td>
               <img 
-                className="img"
-                src="https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+                className="message" 
+                src="/img/message.png" 
                 alt="" 
               />
             </td>
-            <td>Gig1</td>
-            <td>88</td>
-            <td>123</td>
-            <td>
-              <img className="message" src="/img/message.png" alt="" />
-            </td>
           </tr>
-          <tr>
-            <td>
-              <img 
-                className="img"
-                src="https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600" 
-                alt="" 
-              />
-            </td>
-            <td>Gig1</td>
-            <td>88</td>
-            <td>123</td>
-            <td>
-              <img className="message" src="/img/message.png" alt="" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <img 
-                className="img"
-                src="https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600" 
-                alt="" 
-              />
-            </td>
-            <td>Gig1</td>
-            <td>88</td>
-            <td>123</td>
-            <td>
-              <img className="message" src="/img/message.png" alt="" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <img 
-                className="img"
-                src="https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600" 
-                alt="" 
-              />
-            </td>
-            <td>Gig1</td>
-            <td>88</td>
-            <td>123</td>
-            <td>
-              <img className="message" src="/img/message.png" alt="" />
-            </td>
-          </tr>
+          ))}     
         </table>
       </div>
+      )}
     </div>
   )
 };
