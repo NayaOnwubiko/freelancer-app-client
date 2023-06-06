@@ -33,3 +33,5 @@ npm create vite@latest
 
 3. Install Sass, Axios, React Router Dom, Infinite-React-Carousel, Stripe-Js, Moment, Tanstack-React-Query (npm install <package_name>)
 ***Refer to each library's website for the latest package installation instructions
+
+4. Install the backend API (Instructions here https://github.com/NayaOnwubiko/freelancer-app-api)
