@@ -13,15 +13,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try{
+    try {
       const res = await newRequest.post("/auth/login", { username, password });
       localStorage.setItem("currentUser", JSON.stringify(res.data));
-      navigate("/")
-    } catch (err){
+      navigate("/");
+    } catch (err) {
       setError(err.response.data);
     }
-
-
   };
 
   return (
@@ -29,18 +27,23 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <h1>Sign in</h1>
         <label htmlFor="">Username</label>
-        <input name="username" type="text" placeholder="johndoe" onChange={e=>setUsername(e.target.value)}/>
+        <input
+          name="username"
+          type="text"
+          placeholder="johndoe"
+          onChange={(e) => setUsername(e.target.value)}
+        />
         <label htmlFor="">Password</label>
-        <input 
+        <input
           name="password"
           type="password"
-          onChange={e=>setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit">Login</button>
         {error && error}
       </form>
     </div>
-  )
+  );
 };
 
 export default Login;

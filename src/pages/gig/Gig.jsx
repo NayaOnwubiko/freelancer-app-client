@@ -1,7 +1,7 @@
 import React from "react";
 import "./Gig.scss";
 import { Slider } from "infinite-react-carousel/lib";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest";
 import Reviews from "../../components/reviews/Reviews";
@@ -130,40 +130,40 @@ function Gig() {
                 </div>
               </div>
             )}
-          <Reviews gigId={id} />
+            <Reviews gigId={id} />
+          </div>
+          <div className="right">
+            <div className="price">
+              <h3>{data.shortTitle}</h3>
+              <h2>$ {data.price}</h2>
+            </div>
+            <p>{data.shortDesc}</p>
+            <div className="details">
+              <div className="item">
+                <img src="/img/clock.png" alt="" />
+                <span>{data.deliveryDate} Days Delivery</span>
+              </div>
+              <div className="item">
+                <img src="/img/recycle.png" alt="" />
+                <span>{data.revisionNumber} Revisions</span>
+              </div>
+            </div>
+            <div className="features">
+              {data.features.map((feature) => (
+                <div className="item" key={feature}>
+                  <img src="/img/greencheck.png" alt="" />
+                  <span>{feature}</span>
+                </div>
+              ))}
+            </div>
+            <Link to={`/pay/${id}`}>
+              <button>Continue</button>
+            </Link>
+          </div>
         </div>
-        <div className="right">
-          <div className="price">
-            <h3>{data.shortTitle}</h3>
-            <h2>$ {data.price}</h2>
-          </div>
-          <p>
-            {data.shortDesc}
-          </p>
-          <div className="details">
-            <div className="item">
-              <img src="/img/clock.png" alt="" />
-              <span>{data.deliveryDate} Days Delivery</span>
-            </div>
-            <div className="item">
-              <img src="/img/recycle.png" alt="" />
-              <span>{data.revisionNumber} Revisions</span>
-            </div>
-          </div>
-          <div className="features">
-            {data.features.map((feature) => (
-              <div className="item" key={feature}>
-                <img src="/img/greencheck.png" alt="" />
-                <span>{feature}</span>
-            </div>
-            ))}
-          </div>
-          <button>Continue</button>
-        </div>
-      </div>
       )}
     </div>
-  )
-};
+  );
+}
 
 export default Gig;
