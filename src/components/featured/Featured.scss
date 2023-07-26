@@ -1,68 +1,69 @@
-.featured{
+.featured {
     height: 600px;
     display: flex;
     justify-content: center;
-    background-color: #013914;
+    background-color: #375265;
     color: white;
 
-    .container{
+    .container {
         width: 1400px;
         display: flex;
         align-items: center;
 
-        .left{
+        .left {
             display: flex;
             flex-direction: column;
             gap: 30px;
 
-            h1{
+            h1 {
                 font-size: 50px;
 
-                i{
+                i {
                     font-weight: 300;
                 }
             }
 
-            .search{
+            .search {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 background-color: white;
                 border-radius: 5px;
-                .searchInput{
+
+                .searchInput {
                     display: flex;
                     align-items: center;
                     gap: 10px;
 
-                    img{
+                    img {
                         width: 20px;
                         height: 20px;
                         margin: 10px;
                     }
 
-                    input{
+                    input {
                         border: none;
                         outline: none;
                     }
                 }
 
-                button{
+                button {
                     width: 120px;
                     height: 50px;
                     border: none;
-                    background-color: #1dbf73;
+                    background-color: #007aff;
                     color: white;
                     cursor: pointer;
                     border-radius: 5px;
                 }
             }
 
-            .popular{
+            .popular {
                 display: flex;
                 align-items: center;
                 gap: 10px;
 
-                button{
+                button {
                     color: white;
                     background-color: transparent;
                     border: 1px solid white;
@@ -73,10 +74,11 @@
                 }
             }
         }
-        .right{
+
+        .right {
             height: 100%;
 
-            img{
+            img {
                 height: 100%;
                 object-fit: contain;
             }

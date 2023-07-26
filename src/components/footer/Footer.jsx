@@ -68,8 +68,8 @@ const Footer = () => {
         <hr />
         <div className="bottom">
           <div className="left">
-            <h2>fiverr</h2>
-            <span>© Fiverr International Ltd. 2023</span>
+            <h2>freelancer</h2>
+            <span>© Freelancer 2023</span>
           </div>
           <div className="right">
             <div className="social">
@@ -77,7 +77,7 @@ const Footer = () => {
               <img src="/img/facebook.png" alt="" />
               <img src="/img/linkedin.png" alt="" />
               <img src="/img/pinterest.png" alt="" />
-              <img src="/img/instagram.png" alt="" />              
+              <img src="/img/instagram.png" alt="" />
             </div>
             <div className="link">
               <img src="/img/language.png" alt="" />
@@ -92,7 +92,7 @@ const Footer = () => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default Footer;
